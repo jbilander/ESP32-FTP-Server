@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "ESP32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Users/Jorgen/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.6/**",
+                "C:/Users/Jorgen/Documents/Arduino/libraries/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/Users/Jorgen/AppData/Local/Arduino15/packages/esp32/tools/xtensa-esp32-elf-gcc/1.22.0-97-gc752ad5-5.2.0/bin/xtensa-esp32-elf-g++",
+            "cStandard": "c11",
+            "cppStandard": "gnu++11",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}
