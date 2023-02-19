@@ -115,7 +115,7 @@ public:
 
 	virtual void workOnData() = 0;
 
-	bool trasferInProgress()
+	bool transferInProgress()
 	{
 		return _file;
 	}

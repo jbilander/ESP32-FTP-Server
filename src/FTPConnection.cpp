@@ -55,7 +55,7 @@ bool FTPConnection::handle()
     }
     for (std::shared_ptr<FTPCommandTransfer> cmd : _FTPCommandsTransfer)
     {
-        if (cmd->trasferInProgress())
+        if (cmd->transferInProgress())
         {
             cmd->workOnData();
         }
