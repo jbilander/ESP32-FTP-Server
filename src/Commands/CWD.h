@@ -27,8 +27,12 @@ public:
 		File dir = _Filesystem->open(path.getPath());
 		if (dir.isDirectory())
 		{
+			char name[FTP_DIRNAME_SIZE];
+			dir.getName(name, FTP_DIRNAME_SIZE);
+			path.goPathUp();
+			path.changePath(name);
 			WorkDirectory = path;
-			SendResponse(250, "Ok. Current directory is " + WorkDirectory.getPath());
+			SendResponse(250, "CWD command successful.");
 		}
 		else
 		{
