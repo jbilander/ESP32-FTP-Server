@@ -3,6 +3,7 @@
 #include "FTPCommand.h"
 #include "Commands/CDUP.h"
 #include "Commands/CWD.h"
+#include "Commands/PWD.h"
 
 FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserList, SdFs *const Filesystem)
     : _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
@@ -10,6 +11,7 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
 
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CDUP(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CWD(&_Client, _Filesystem)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PWD(&_Client)));
 
     Serial.print("New Connection from ");
     Serial.print(_Client.remoteIP());
@@ -83,7 +85,7 @@ bool FTPConnection::handle()
         return true;
 
     case NOOP: // No operation (dummy packet; used mostly on keepalives).
-        sendResponse(200, "Ok.");
+        sendResponse(200, "NOOP command successful.");
         _Line = "";
         return true;
 

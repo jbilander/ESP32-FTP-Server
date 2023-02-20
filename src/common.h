@@ -38,6 +38,7 @@ enum FTPCommandEnum
 	PASS,
 	CDUP,
 	CWD,
+	PWD,
 };
 
 struct FTPCommandMap : public std::map<String, FTPCommandEnum>
@@ -55,6 +56,7 @@ struct FTPCommandMap : public std::map<String, FTPCommandEnum>
 		this->operator[]("PASS") = PASS;
 		this->operator[]("CDUP") = CDUP;
 		this->operator[]("CWD") = CWD;
+		this->operator[]("PWD") = PWD;
 	};
 	~FTPCommandMap() {}
 };
