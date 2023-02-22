@@ -3,7 +3,10 @@
 #include "FTPCommand.h"
 #include "Commands/CDUP.h"
 #include "Commands/CWD.h"
+#include "Commands/LIST.h"
+#include "Commands/PORT.h"
 #include "Commands/PWD.h"
+#include "Commands/TYPE.h"
 
 FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserList, SdFs *const Filesystem)
     : _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
@@ -11,7 +14,10 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
 
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CDUP(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CWD(&_Client, _Filesystem)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class LIST(&_Client, _Filesystem, &_DataAddress, &_DataPort)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PORT(&_Client, &_DataAddress, &_DataPort)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PWD(&_Client)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class TYPE(&_Client)));
 
     Serial.print("New Connection from ");
     Serial.print(_Client.remoteIP());
@@ -91,7 +97,7 @@ bool FTPConnection::handle()
 
     case FEAT: // Get the feature list implemented by the server.
         sendResponse(211, "Extensions suported:");
-        _Client.println("MLSD");
+        _Client.println("SYST");
         sendResponse(211, "End.");
         _Line = "";
         return true;
