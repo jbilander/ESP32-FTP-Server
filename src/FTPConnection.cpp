@@ -96,8 +96,9 @@ bool FTPConnection::handle()
         return true;
 
     case FEAT: // Get the feature list implemented by the server.
-        sendResponse(211, "Extensions suported:");
+        _Client.println("211- Extensions supported:");
         _Client.println("SYST");
+        _Client.println("MLSD");
         sendResponse(211, "End.");
         _Line = "";
         return true;
