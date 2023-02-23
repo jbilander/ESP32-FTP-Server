@@ -40,11 +40,16 @@ public:
 
             if (f.isDirectory())
             {
-                data_print("drwxr-xr-x");
+                data_print("drw-r--r-- 2"); // ToDo: 2 here could be altered to show the actual number of subdirs
+                /*
+                For directories, it's 2 + the number of subdirectories.
+                This is because a directory can be referred to either by its name in the parent directory,
+                 . in itself, or .. in each subdirectory.
+                */
             }
             else
             {
-                data_print("-rw-r--r--");
+                data_print("-rw-r--r-- 1");
             }
 
             /*
@@ -55,24 +60,33 @@ public:
 
             */
 
-            data_print(" 1 esp32 esp32 ");
-            char buf[50];
-            sprintf(buf, "%llu", f.size());
-            String filesize = String(buf);
+            data_print(" esp32 default ");
 
-            int fill_cnt = 13 - filesize.length();
-            for (int i = 0; i < fill_cnt; i++)
+            char buf[14];
+            uint64_t fsize = f.size();
+            sprintf(buf, "%13d", fsize);
+            String filesize;
+
+            if (fsize > 9999999999999)
             {
-                data_print(" ");
+                filesize = "9999999999999"; // Size too large to fit in 13 digits
+            }
+            else
+            {
+                filesize = String(buf);
             }
 
             uint16_t pdate;
             uint16_t ptime;
             f.getModifyDateTime(&pdate, &ptime);
+
             uint16_t monthNmbr = (pdate >> 5) & 0XF;
             String monthStr = MonthToStr<String>(monthNmbr);
 
-            data_println(filesize + " " + monthStr + " " + String(FS_DAY(pdate)) + " " + String(FS_YEAR(pdate)) + " " + filename);
+            uint16_t dayNmbr = pdate & 0X1F;
+            String day = dayNmbr > 9 ? String(dayNmbr) : "0" + String(dayNmbr);
+
+            data_println(filesize + " " + monthStr + " " + day + " " + String(FS_YEAR(pdate)) + " " + filename);
             cnt++;
             f.close();
             f = dir.openNextFile();
