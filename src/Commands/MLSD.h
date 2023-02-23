@@ -47,7 +47,7 @@ public:
                 data_print("dir;");
             else
             {
-                char buf[20];
+                char buf[22];
                 sprintf(buf, "%llu;", f.size());
                 data_print("file;size=" + String(buf));
             }
@@ -55,7 +55,7 @@ public:
             uint16_t pdate;
             uint16_t ptime;
             f.getModifyDateTime(&pdate, &ptime);
-            char buf[14];
+            char buf[23];
             sprintf(buf, "modify=%4d%02d%02d%02d%02d%02d;",
                     FS_YEAR(pdate),
                     FS_MONTH(pdate),
