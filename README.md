@@ -7,11 +7,11 @@ WORK IN PROGRESS
 
 ***
 
-An FTP-server implementation for the `ESP32` based on this code (but heavily refactored): <br />
+An FTP-server implementation for the `ESP32` based on this code but heavily refactored... <br />
 https://github.com/peterus/ESP-FTP-Server-Lib/
 <br />
 <br />
-to instead use `SdFat` (SdFs filesystem) for MicroSD-card storage (through SPI)
+...to instead use `SdFat` (SdFs filesystem) for MicroSD-card storage (through SPI)
 <br />
 https://github.com/greiman/SdFat/
 <br />
