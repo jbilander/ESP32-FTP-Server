@@ -7,25 +7,25 @@
 class DELE : public FTPCommand
 {
 public:
-	explicit DELE(WiFiClient *const Client, SdFs *const Filesystem) : FTPCommand("DELE", 1, Client, Filesystem) {}
+    explicit DELE(WiFiClient *const Client, SdFs *const Filesystem) : FTPCommand("DELE", 1, Client, Filesystem) {}
 
-	void run(FTPPath &WorkDirectory, const std::vector<String> &Line) override
-	{
-		String filepath = WorkDirectory.getFilePath(Line[1]);
-		if (!_Filesystem->exists(filepath))
-		{
-			SendResponse(550, "File " + filepath + " not found");
-			return;
-		}
-		if (_Filesystem->remove(filepath))
-		{
-			SendResponse(250, "Deleted \"" + filepath + "\"");
-		}
-		else
-		{
-			SendResponse(450, "Can't delete \"" + filepath + "\"");
-		}
-	}
+    void run(FTPPath &WorkDirectory, const std::vector<String> &Line) override
+    {
+        String filepath = WorkDirectory.getFilePath(Line[1]);
+        if (!_Filesystem->exists(filepath))
+        {
+            SendResponse(550, "File " + filepath + " not found");
+            return;
+        }
+        if (_Filesystem->remove(filepath))
+        {
+            SendResponse(250, "Deleted \"" + filepath + "\"");
+        }
+        else
+        {
+            SendResponse(450, "Can't delete \"" + filepath + "\"");
+        }
+    }
 };
 
 #endif
