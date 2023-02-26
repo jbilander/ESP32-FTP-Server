@@ -11,6 +11,7 @@
 #include "Commands/PORT.h"
 #include "Commands/PWD.h"
 #include "Commands/RMD.h"
+#include "Commands/RNFR_RNTO.h"
 #include "Commands/TYPE.h"
 #include "Commands/XMKD.h"
 #include "Commands/XRMD.h"
@@ -29,6 +30,7 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PORT(&_Client, &_DataAddress, &_DataPort)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PWD(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class RMD(&_Client, _Filesystem)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class RNFR_RNTO(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class TYPE(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class XMKD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class XRMD(&_Client, _Filesystem)));
@@ -159,11 +161,14 @@ bool FTPConnection::handle()
     {
         std::vector<std::shared_ptr<FTPCommand>>::const_iterator it;
 
+        if (c == RN)
+            break;
+
         for (it = _FTPCommands.begin(); it != _FTPCommands.end(); it++)
         {
             FTPCommandEnum cmd = it->get()->getCommandEnum();
 
-            if (c == cmd)
+            if (c == cmd || (cmd == RN && (c == RNFR || c == RNTO)))
             {
                 (*it)->run(_WorkDirectory, _LineSplit);
                 _Line = "";
