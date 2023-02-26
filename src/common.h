@@ -47,6 +47,7 @@ enum FTPCommandEnum
     PWD,
     RMD,
     TYPE,
+    XMKD,
     XRMD,
 };
 
@@ -74,6 +75,7 @@ struct FTPCommandMap : public std::map<String, FTPCommandEnum>
         this->operator[]("PWD") = PWD;
         this->operator[]("RMD") = RMD;
         this->operator[]("TYPE") = TYPE;
+        this->operator[]("XMKD") = XMKD;
         this->operator[]("XRMD") = XRMD;
     };
     ~FTPCommandMap() {}
