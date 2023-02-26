@@ -19,7 +19,14 @@ public:
             return;
         }
 
-        File dir = _Filesystem->open(WorkDirectory.getPath());
+        String argument = Line.size() > 1 ? Line[1] : "";
+
+        if (argument != "" && !WorkDirectory.getPath().equals("/"))
+        {
+            argument = "/" + argument;
+        }
+
+        File dir = _Filesystem->open(WorkDirectory.getPath() + argument);
 
         if (!dir || !dir.isDirectory())
         {
