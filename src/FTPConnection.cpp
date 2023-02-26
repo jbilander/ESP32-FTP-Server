@@ -12,6 +12,7 @@
 #include "Commands/PWD.h"
 #include "Commands/RMD.h"
 #include "Commands/TYPE.h"
+#include "Commands/XRMD.h"
 
 FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserList, SdFs *const Filesystem)
     : _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
@@ -28,6 +29,7 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PWD(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class RMD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class TYPE(&_Client)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class XRMD(&_Client, _Filesystem)));
 
     Serial.print("New Connection from ");
     Serial.print(_Client.remoteIP());
