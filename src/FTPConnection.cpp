@@ -10,6 +10,7 @@
 #include "Commands/NLST.h"
 #include "Commands/PORT.h"
 #include "Commands/PWD.h"
+#include "Commands/RMD.h"
 #include "Commands/TYPE.h"
 
 FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserList, SdFs *const Filesystem)
@@ -25,6 +26,7 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class NLST(&_Client, _Filesystem, &_DataAddress, &_DataPort)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PORT(&_Client, &_DataAddress, &_DataPort)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PWD(&_Client)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class RMD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class TYPE(&_Client)));
 
     Serial.print("New Connection from ");

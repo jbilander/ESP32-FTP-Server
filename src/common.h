@@ -45,6 +45,7 @@ enum FTPCommandEnum
     NLST,
     PORT,
     PWD,
+    RMD,
     TYPE,
 };
 
@@ -70,6 +71,7 @@ struct FTPCommandMap : public std::map<String, FTPCommandEnum>
         this->operator[]("NLST") = NLST;
         this->operator[]("PORT") = PORT;
         this->operator[]("PWD") = PWD;
+        this->operator[]("RMD") = RMD;
         this->operator[]("TYPE") = TYPE;
     };
     ~FTPCommandMap() {}
