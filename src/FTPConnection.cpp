@@ -12,6 +12,7 @@
 #include "Commands/PWD.h"
 #include "Commands/RMD.h"
 #include "Commands/RNFR_RNTO.h"
+#include "Commands/STOR.h"
 #include "Commands/TYPE.h"
 #include "Commands/XMKD.h"
 #include "Commands/XRMD.h"
@@ -20,6 +21,7 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
     : _ClientState(Idle), _Client(Client), _Filesystem(Filesystem), _UserList(UserList), _AuthUsername("")
 {
 
+    std::shared_ptr<FTPCommandTransfer> stor = std::shared_ptr<FTPCommandTransfer>(new class STOR(&_Client, _Filesystem, &_DataAddress, &_DataPort));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CDUP(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CWD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class DELE(&_Client, _Filesystem)));
@@ -31,9 +33,11 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class PWD(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class RMD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class RNFR_RNTO(&_Client, _Filesystem)));
+    _FTPCommands.push_back(stor);
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class TYPE(&_Client)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class XMKD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class XRMD(&_Client, _Filesystem)));
+    _FTPCommandsTransfer.push_back(stor);
 
     Serial.print("New Connection from ");
     Serial.print(_Client.remoteIP());

@@ -49,6 +49,7 @@ enum FTPCommandEnum
     RN,
     RNFR,
     RNTO,
+    STOR,
     TYPE,
     XMKD,
     XRMD,
@@ -80,6 +81,7 @@ struct FTPCommandMap : public std::map<String, FTPCommandEnum>
         this->operator[]("RN") = RN;
         this->operator[]("RNFR") = RNFR;
         this->operator[]("RNTO") = RNTO;
+        this->operator[]("STOR") = STOR;
         this->operator[]("TYPE") = TYPE;
         this->operator[]("XMKD") = XMKD;
         this->operator[]("XRMD") = XRMD;
