@@ -5,6 +5,7 @@
 #include "Commands/CWD.h"
 #include "Commands/DELE.h"
 #include "Commands/LIST.h"
+#include "Commands/MFCT.h"
 #include "Commands/MFMT.h"
 #include "Commands/MKD.h"
 #include "Commands/MLSD.h"
@@ -29,6 +30,7 @@ FTPConnection::FTPConnection(const WiFiClient &Client, std::list<FTPUser> &UserL
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class CWD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class DELE(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class LIST(&_Client, _Filesystem, &_DataAddress, &_DataPort)));
+    _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class MFCT(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class MFMT(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class MKD(&_Client, _Filesystem)));
     _FTPCommands.push_back(std::shared_ptr<FTPCommand>(new class MLSD(&_Client, _Filesystem, &_DataAddress, &_DataPort)));
@@ -125,6 +127,7 @@ bool FTPConnection::handle()
         _Client.println("211-Features:");
         _Client.println("MLSD");
         _Client.println("MFMT");
+        _Client.println("MFCT");
         sendResponse(211, "End");
         _Line = "";
         return true;
