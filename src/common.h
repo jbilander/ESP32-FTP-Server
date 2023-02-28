@@ -40,6 +40,7 @@ enum FTPCommandEnum
     DELE,
     CWD,
     LIST,
+    MFMT,
     MKD,
     MLSD,
     NLST,
@@ -73,6 +74,7 @@ struct FTPCommandMap : public std::map<String, FTPCommandEnum>
         this->operator[]("CWD") = CWD;
         this->operator[]("DELE") = DELE;
         this->operator[]("LIST") = LIST;
+        this->operator[]("MFMT") = MFMT;
         this->operator[]("MKD") = MKD;
         this->operator[]("MLSD") = MLSD;
         this->operator[]("NLST") = NLST;
